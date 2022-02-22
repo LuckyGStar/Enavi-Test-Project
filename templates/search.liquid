@@ -31,7 +31,15 @@
         {%- for item in search.results -%}
 
           {%- if item.object_type == 'product' -%}
-            {%- render 'product-grid-item', product: item -%}
+            {%- liquid
+                assign is_visible_online_store = true
+                if settings.enable_product_exclude_with_tag and item.tags contains settings.tag_to_exclude_product
+                  assign is_visible_online_store = false
+                endif
+            -%}
+            {%- if is_visible_online_store -%}
+              {%- render 'product-grid-item', product: item -%}
+            {%- endif -%}
           {%- else -%}
             <div class="grid__item grid-search medium-up--one-quarter small--one-half">
               <div class="grid-search__page">
@@ -59,8 +67,16 @@
         {%- for item in search.results -%}
           {%- if item.object_type == 'product' -%}
             {%- if settings.quick_shop_enable -%}
-              {%- assign product = item -%}
-              {%- render 'quick-shop-modal', product: product -%}
+              {%- liquid
+                  assign is_visible_online_store = true
+                  if settings.enable_product_exclude_with_tag and item.tags contains settings.tag_to_exclude_product
+                    assign is_visible_online_store = false
+                  endif
+              -%}
+              {%- if is_visible_online_store -%}
+                {%- assign product = item -%}
+                {%- render 'quick-shop-modal', product: product -%}
+              {%- endif -%}
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}

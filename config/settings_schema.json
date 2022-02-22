@@ -847,6 +847,21 @@
             "label": "Full width"
           }
         ]
+      },
+      {
+        "type": "header",
+        "content": "Product exclude condition with tag"
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable product exclude with tag",
+        "id": "enable_product_exclude_with_tag"
+      },
+      {
+        "type": "text",
+        "label": "Tag for excluding products from online store",
+        "id": "tag_to_exclude_product",
+        "default": "text"
       }
     ]
   },

@@ -78,7 +78,15 @@
     -%}
 
     {%- for product in collection.products -%}
-      {%- render 'product-grid-item', product: product, grid_item_width: grid_item_width, per_row: per_row -%}
+      {%- liquid
+          assign is_visible_online_store = true
+          if settings.enable_product_exclude_with_tag and product.tags contains settings.tag_to_exclude_product
+            assign is_visible_online_store = false
+          endif
+      -%}
+      {%- if is_visible_online_store -%}
+        {%- render 'product-grid-item', product: product, grid_item_width: grid_item_width, per_row: per_row -%}
+      {%- endif -%}
     {%- else -%}
       <div class="grid__item">
         <p>{{ 'collections.general.no_matches' | t }}</p>
@@ -107,7 +115,15 @@
 
   {%- if settings.quick_shop_enable -%}
     {%- for product in collection.products -%}
-      {%- render 'quick-shop-modal', product: product -%}
+      {%- liquid
+          assign is_visible_online_store = true
+          if settings.enable_product_exclude_with_tag and product.tags contains settings.tag_to_exclude_product
+            assign is_visible_online_store = false
+          endif
+      -%}
+      {%- if is_visible_online_store -%}
+        {%- render 'quick-shop-modal', product: product -%}
+      {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
 </div>
