@@ -10910,3 +10910,110 @@ html[dir=rtl] .product-single__meta .rte{
     color:#58686f;
   }
 }
+
+/* Upsell Items */
+.upsell__card--select input+span:after {
+  background-image:url({{ "ico-check.svg" | asset_url | split: '?' | first }});
+}
+
+.upsell__card {
+  display: flex;
+  margin-bottom: 1em;
+  padding: 10px;
+  border: 1px solid var(--colorBorder);
+}
+
+.upsell__card .upsell__card--inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.upsell__card .upsell__card--inner .upsell__card--select {
+  position: relative;
+  display: block;
+  margin: 0 11px 0 -50px;
+  z-index: 1;
+}
+
+.upsell__card .upsell__card--inner .upsell__card--select input {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  opacity: 0;
+}
+
+.upsell__card .upsell__card--inner .upsell__card--select input+span {
+  content: "";
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  border: 1px solid var(--colorBorder);
+}
+
+.upsell__card .upsell__card--inner .upsell__card--select input+span:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: auto;
+  transform: scale(0);
+  transition: transform .2s;
+}
+
+.upsell__card .upsell__card--inner .upsell__card--select input:checked+span:after {
+  transform: scale(1);
+}
+
+.upsell__card .upsell__card--container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding-left: 10px;
+  align-items: center;
+}
+
+.upsell__card .upsell__card--container .upsell__card--container-image img {
+  display: block;
+  height: 80px;
+  width: 80px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border: 1px solid var(--colorBorder);
+}
+
+.upsell__card .upsell__card--container .upsell__card--container-body {
+  display: flex;
+  flex: 1 1 auto;
+  text-align: left;
+  margin-left: 12px;
+  overflow: hidden;
+}
+
+.upsell__card .upsell__card--container .upsell__card--container-body .options {
+  flex: 1 1 auto;
+}
+
+.upsell__card .upsell__card--container .upsell__card--container-body .title {
+  padding-bottom: 6px;
+}
+
+.upsell__card .upsell__card--container .upsell__card--container-body .title span {
+  display: block;
+  font-size: 12px;
+}
+/* End Upsell Items */

@@ -2360,10 +2360,57 @@ lazySizesConfig.expFactor = 4;
       this.form = form;
   
       var submitSelector = submit ? submit : '.add-to-cart';
-  
+
+      // upsell item dom handler
+      const upsellItemSelector = '[data-upsell-item-add]';
+
       if (this.form) {
+        this.addUpsellItemToCart = form.querySelectorAll(upsellItemSelector);
         this.addToCart = form.querySelector(submitSelector);
         this.form.addEventListener('submit', this.addItemFromForm.bind(this));
+
+        // upsell item processing module
+        if (!!this.addUpsellItemToCart) {
+          this.addUpsellItemToCart.forEach((btnAddUpsellItem) => {
+            btnAddUpsellItem.addEventListener('click', e => {
+              if (e.currentTarget.checked) {
+                const variantId = e.currentTarget.dataset.variantId;
+
+                // Loading indicator on add to cart button
+                this.addToCart.classList.add('btn--loading');
+
+                status.loading = true;
+
+                const formData = {
+                 'items': [{
+                    'id': variantId,
+                  }],
+                };
+
+                fetch(theme.routes.cartAdd, {
+                  method: 'POST',
+                  body: JSON.stringify(formData),
+                  credentials: 'same-origin',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  }
+                })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.status === 422) {
+                    this.error(data);
+                  } else {
+                    const addedProduct = data;
+                    this.success(addedProduct);
+                  }
+
+                  status.loading = false;
+                  this.addToCart.classList.remove('btn--loading');
+                }).bind(this);
+              }
+            });
+          });
+        }
       }
     };
   
@@ -2381,7 +2428,7 @@ lazySizesConfig.expFactor = 4;
         status.loading = true;
   
         var data = theme.utils.serialize(this.form);
-  
+        
         fetch(theme.routes.cartAdd, {
           method: 'POST',
           body: data,

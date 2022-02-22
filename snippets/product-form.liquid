@@ -119,6 +119,24 @@
     <div class="payment-buttons">
   {%- endif -%}
 
+  {% comment %}
+  Upsell items for quick cart add in product template. they can be configured in metafields.
+  {% endcomment %}
+
+  <!-- Upsell Items -->
+  {%- liquid
+    assign upsell_items = product.metafields.upsells.single_upsell_item
+    assign upsell_enabled = false
+    if upsell_items != blank
+      assign upsell_enabled = true
+    endif
+  -%}
+
+  {% if upsell_enabled %}
+    {% render 'product-upsell', items: upsell_items %}
+  {%- endif -%}
+  <!-- ./Upsell Items -->
+
   {%- liquid
     assign default_text = 'products.product.add_to_cart' | t
     assign button_text = 'products.product.add_to_cart' | t

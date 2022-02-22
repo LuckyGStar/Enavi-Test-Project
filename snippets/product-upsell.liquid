@@ -1,0 +1,61 @@
+<div class="upsell__wrapper">
+  {%- for handle in items -%}
+
+    {%- assign upsell_item = all_products[handle] -%}
+    {%- capture upsell_item_id -%}
+      upsell__card--item_{{ forloop.index }}
+    {%- endcapture -%}
+
+    <div class="upsell__card">
+      <div class="upsell__card--inner">
+        <label for="{{ upsell_item_id }}" class="upsell__card--select">
+          <input
+            type="checkbox"
+            name="{{ upsell_item_id }}"
+            data-variant-id="{{ upsell_item.selected_or_first_available_variant.id }}"
+            data-upsell-item-add
+          />
+          <span></span>
+        </label>
+
+        <div class="upsell__card--container">
+          <div class="upsell__card--container-image">
+            {%- assign img_url = upsell_item.featured_media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img
+              class="lazyload"
+              data-src="{{ img_url }}"
+              data-widths="[360, 540, 700, 1024]"
+              data-aspectratio="{{ upsell_item.featured_media.aspect_ratio }}"
+              data-sizes="auto"
+              alt="{{ upsell_item.featured_media.alt }}"
+            />
+            <noscript>
+              <img
+                class="lazyloaded"
+                src="{{ upsell_item.featured_media | img_url: '170x' }}"
+                alt="{{ upsell_item.featured_media.alt }}"
+              />
+            </noscript>
+          </div>
+
+          <div class="upsell__card--container-body">
+            <div class="options">
+              <div class="title">
+                <span>{{ upsell_item.title }}</span>
+              </div>
+              <div class="price">
+                <span>
+                  {%- if upsell_item.compare_at_price > upsell_item.price -%}
+                    {{ upsell_item.price | money }} / <s>{{ upsell_item.compare_at_price | money }}</s>
+                  {%- else -%}
+                    {{ upsell_item.price | money }}
+                  {%- endif -%}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
